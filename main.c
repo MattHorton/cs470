@@ -2,6 +2,14 @@
 #include <unistd.h>
 #include <string.h>
 #define MAX_LINE 80 /* The maximum length command */
+#define LSH_TOK_DELIM " \t\r\n\a"
+
+void getCommand(char** args, int* numArgs);
+
+
+
+
+
 
 int main(int argc, char** argv) {
 
@@ -9,46 +17,12 @@ int main(int argc, char** argv) {
 
     int running = 1; /* flag to determine when to exit program */
 
-    size_t len = 0;
-    char* line = NULL;
+    
 
 
     while (running) {
 
-        printf("osh>");
-        getline(&line, &len, stdin);
-        fflush(stdout);
-        printf("%s", line);
-
-        #define LSH_TOK_BUFSIZE 64
-        #define LSH_TOK_DELIM " \t\r\n\a"
-        int bufsize = LSH_TOK_BUFSIZE, position = 0;
-        char **args = malloc(bufsize * sizeof(char*));
-        char *token;
-        if (!args) {
-            fprintf(stderr, "lsh: allocation error\n");
-            exit(1);
-        }
-        token = strtok(line, LSH_TOK_DELIM);
-        int i = 0;
-        while (token != NULL) {
-            i++;
-            args[position] = token;
-            position++;
-            if (position >= bufsize) {
-                bufsize += LSH_TOK_BUFSIZE;
-                args = realloc(args, bufsize * sizeof(char*));
-                if (!args) {
-                    fprintf(stderr, "lsh: allocation error\n");
-                    exit(1);
-                }
-            }
-            token = strtok(NULL, LSH_TOK_DELIM);
-        }
-        args[position] = NULL;
-        for(int x = 0; x < i; x++) {
-            printf("\n%s\n", args[x]);
-        }
+        char *args[MAX_LINE/2 + 1];
 
 
         /**
@@ -59,4 +33,31 @@ int main(int argc, char** argv) {
     }
 
     return 0;
+}
+
+
+void getCommand(char** args, int* numArgs) {
+    size_t len = 0;
+    char* line = NULL;
+    int position = 0;
+    char *token;
+    int i = 0;
+
+    printf("osh>");
+    getline(&line, &len, stdin);
+    fflush(stdout);
+    printf("%s", line);
+
+    token = strtok(line, LSH_TOK_DELIM);
+    while (token != NULL) {
+        i++;
+        args[position] = token;
+        position++;
+        token = strtok(NULL, LSH_TOK_DELIM);
+    }
+    args[position] = NULL;
+
+    for(int x = 0; x < i; x++) {
+        printf("\n%s\n", args[x]);
+    }
 }
