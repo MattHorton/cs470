@@ -2,9 +2,12 @@
 #include<pthread.h>
 #include<semaphore.h>
 #include"buffer.h"
+#include<stdlib.h>//required for rand()
 
+#define RAND_MAX 10
 
-
+void* producer(void* param);
+void* consumer(void* param);
 
 int main(int argc, char** argv) {
     //argv[1] is how long to sleep before terminating
@@ -28,4 +31,35 @@ int main(int argc, char** argv) {
     //all sem functions rtrn 0 when successful
 
     return 0;
+}
+
+
+
+void* producer(void* param) {
+    buffer_item item;
+
+    while(true) {
+        //sleep for random period of time
+        sleep(rand());
+        //generate a random number
+        item = rand();
+        if(insert_item(item))
+            fprintf("report error condition");
+        else
+            printf("producer produced %d\n", item);   
+    }
+}
+void* consumer(void* param) {
+    buffer_item item;
+
+    while(true) {
+        //sleep for random period of time
+        sleep(rand());
+        //generate a random number
+        item = rand();
+        if(remove_item(&item))
+            fprintf("report error condition");
+        else
+            printf("consumer consumed %d\n", item);   
+    }
 }
