@@ -7,9 +7,9 @@
 
 
 int main(int argc, char** argv) {
-    //argv[0] is how long to sleep before terminating
-    //argv[1] is number of producer threads
-    //argv[2] is number of consumer threads
+    //argv[1] is how long to sleep before terminating
+    //argv[2] is number of producer threads
+    //argv[3] is number of consumer threads
     
     while(1) {
         //do nothing
