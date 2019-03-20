@@ -1,0 +1,53 @@
+notes cs475 september 7, 2018
+
+hw3 due september 12
+4.1
+4.4
+4.6
+4.10
+4.16
+4.21
+4.26
+4.30
+
+Application Layer Protocols
+Any network app has a formal or informal application protocol
+	syntax/semantics of the message
+	if the client or server began the interaction
+	what to do if an error happens
+	how/when the connection will be terminated
+
+Private services
+	this is an internal application used "in house"
+	may have general application protocol
+
+standardized service
+	external use very specific detailed
+
+application layer protocol has two parts
+representation
+	syntax of the data
+	may specify that the format of the message will return in a specific format
+	explains the syntax of the communication
+transfer
+	interaction between the client server
+	goes through the flow of the client server interaction
+	valid/invalid exchange
+	any error handling
+	how to terminate the connection
+
+sections 4.4-4.16
+look over the service protocols
+
+DNS
+for project 1 must use function getHostByName()
+maps human readable name to a computer's ip address
+how does dns work
+	has a hierarchy and uses the client server relationship
+example : csserver.evansville.edu
+
+	edu
+		evansville
+			csserver
+
+no syn ack
