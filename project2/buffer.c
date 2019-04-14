@@ -3,7 +3,7 @@
 
 #define BUFFER_SIZE 5
 buffer_item buffer[BUFFER_SIZE];
-int index = 0;
+int currentIndex = 0;
 
 
 
@@ -27,5 +27,5 @@ int remove_item(buffer_item* item) {
     return -1;//failed
 }
 void bufInit() {
-    index = 0;
+    currentIndex = 0;
 }

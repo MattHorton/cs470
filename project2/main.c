@@ -43,11 +43,11 @@ int main(int argc, char** argv) {
     //2. initialize the buffer
     initializeBuffer();
     //3. create producer threads
-    for(int i = 0; i < argc[3]; i++) {
+    for(int i = 0; i < (int)argv[2]; i++) {
         pthread_create(&producerThread, 0, producer((void*)i), 0);
     }
     //4. create consumer threads
-    for(int i = 0; i < argc[3]; i++) {
+    for(int i = 0; i < (int)argv[3]; i++) {
         pthread_create(&consumerThread, 0, consumer((void*)i), 0);
     }
     //5. sleep
@@ -58,13 +58,13 @@ int main(int argc, char** argv) {
 void* producer(void* param) {
     buffer_item item;
 
-    while(true) {
+    while(1) {
         //sleep for random period of time
         sleep(rand());
         //generate a random number
         item = rand();
         if(insert_item(item))
-            fprintf("report error condition");
+            printf("report error condition");
         else
             printf("producer %d produced %d\n", param, item);   
     }
@@ -73,19 +73,18 @@ void* producer(void* param) {
 void* consumer(void* param) {
     buffer_item item;
 
-    while(true) {
+    while(1) {
         //sleep for random period of time
         sleep(rand());
         //generate a random number
         item = rand();
         if(remove_item(&item))
-            fprintf("report error condition");
+            printf("report error condition");
         else
             printf("consumer %d consumed %d\n", param, item);   
     }
     pthread_exit(0);
 }
-
 void initializeBuffer() {
     //initialize mutex object and empty and full semaphores
     sem_init(&empty, 0, 1);
