@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "buffer.h"
+#include <stdio.h>
 
 //skeleton
 int main(int argc, char** argv) {
@@ -20,7 +21,7 @@ void* producer(void* param) {
         //generate a random number
         item = rand();
         if(insert_item(item))
-            fprintf("report error condition");
+            fprintf("report error condition", stdout);
         else
             printf("producer produced %d\n", item);        
     }
@@ -35,7 +36,7 @@ void* consumer(void* param) {
         //generate a random number
         item = rand();
         if(remove_item(&item))
-            fprintf("report error condition");
+            fprintf("report error condition", stdout);
         else
             printf("consumer consumed %d\n", item);        
     }

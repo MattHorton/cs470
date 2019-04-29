@@ -3,6 +3,8 @@
 #include <sys/types.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <sys/queue.h>
+#include <stdlib.h>
 
 #define MAX_LINE 80 //the maximum length command
 
@@ -10,6 +12,9 @@ int main(void) {
     char* args[MAX_LINE/2 + 1]; //command line arguments
     int should_run = 1; //flag to determine when to exit program
     char input[MAX_LINE]; //user input string
+
+    //char*** argsHistory = malloc(80*80*(MAX_LINE/2 + 1)*sizeof(char));
+    //int historyIndex = 0;
 
     while(should_run) {
         //input tokenizer
@@ -25,14 +30,36 @@ int main(void) {
           printf("args[%d] = \"%s\"\n", i, args[i]);
         }
 
+        //argsHistory[historyIndex%10] = &args;
+        //historyIndex++;
 
         //after reading user input
         //  fork a child process using fork
         //  the child process will invoke execvp
         //  if command included &, parent will invoke wait
 
-        if(strcmp(args[0], "exit") == 0)
-          should_run = 0;
+        /*
+        if(strcmp(args[0], "history") == 0) {
+            for(int i = 0; i < 10; i++) {
+                for(int j = 0; j < 80; j++) {
+                    if(argsHistory[i][j] == NULL) {
+                        //do nothing
+                    }
+                    else
+                    {
+                        printf("%s ", argsHistory[i][j]);
+                    }
+                }
+                printf("\n");
+            }
+        }
+        */
+
+        
+        if(strcmp(args[0], "exit") == 0) {
+            should_run = 0;
+            return 0;
+        }
         if(strcmp(args[i-1], "&") != 0) {
             printf("ampersand NOT detected entering branch w/ wait\n");
             pid_t pid = fork(); // fork a child process
@@ -72,7 +99,5 @@ int main(void) {
             }
         }
     }
-
-
     return 0;
 }
