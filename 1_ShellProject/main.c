@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 #define MAX_LINE 80 /* The maximum length command */
 #define LSH_TOK_DELIM " \t\r\n\a"
 
-char* getCommand(int* numArgs);
+char* getCommand();
 
 
 
+
+int numArgs = 0;
+char** args;
+char* line;
 
 
 
@@ -21,10 +26,7 @@ int main(int argc, char** argv) {
 
 
     while (running) {
-
-        char **args;
-        int numArgs = 0;
-        printf("%d", numArgs);
+        printf("Number of arguments: %d\n", numArgs);
         for(int x = 0; x < numArgs; x++) {
             printf("\n%s\n", args[x]);
         }
@@ -33,18 +35,21 @@ int main(int argc, char** argv) {
         * (1) fork a child process using fork()
         * (2) the child process will invoke execvp()
         * (3) if command included &, parent will invoke wait() */
+       //fflush(stdout);
+       getCommand();
+       system("clear");
     }
     return 0;
 }
 
 
-char* getCommand(int* numArgs) {
+char* getCommand() {
     size_t len = 0;
-    char* line = NULL;
+    //char* line = NULL;
     int position = 0;
     char *token;
     int i = 0;
-    char** args;
+    
     printf("osh>");
     getline(&line, &len, stdin);
     fflush(stdout);
@@ -58,8 +63,8 @@ char* getCommand(int* numArgs) {
     args[position] = NULL;
 }
 
-char** parseCommand(char* line) {
-    char** args = malloc(sizeof(char) * 128);
+void parseCommand() {
+    //char** args = malloc(sizeof(char) * 128);
     int position = 0;
     char *token;
     int i = 0;
@@ -72,5 +77,4 @@ char** parseCommand(char* line) {
         token = strtok(NULL, LSH_TOK_DELIM);
     }
     args[position] = NULL;
-    return args;
 }
